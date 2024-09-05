@@ -149,3 +149,41 @@ function gerenciar_estoque(&$produtos) {
         }
     }
 }
+
+// Criar Orçamentos
+function criar_orcamento(&$produtos, &$orcamentos) {
+    limpar_tela();
+    $cliente_nome = ler_entrada("\nNome do Cliente: ");
+
+    $orcamento = ['cliente' => $cliente_nome, 'itens' => [], 'data_hora' => date('Y-m-d H:i:s')];
+    $valor_total = 0;
+
+    while (true) {
+        echo "\nProdutos disponíveis:\n";
+        foreach ($produtos as $produto) {
+            echo "ID: " . $produto['id'] . " | Nome: " . $produto['nome'] . " | Valor: R$" . $produto['valor'] . "\n";
+        }
+
+        $produto_id = ler_entrada("\nAdicionar Produto ao Orçamento (ID do Produto, 0 para finalizar): ");
+
+        if ($produto_id == '0') {
+            break;
+        }
+
+        foreach ($produtos as $produto) {
+            if ($produto['id'] == $produto_id) {
+                $quantidade = ler_entrada("Quantidade de {$produto['nome']}: ");
+                $orcamento['itens'][] = ['produto' => $produto, 'quantidade' => $quantidade];
+                $valor_total += $produto['valor'] * $quantidade;
+                echo "Produto adicionado ao orçamento.\n";
+                break;
+            }
+        }
+    }
+
+    $orcamento['valor_total'] = $valor_total;
+    $orcamentos[] = $orcamento;
+    echo "\nOrçamento criado com sucesso!\n";
+    echo "Valor Total: R$" . $valor_total . "\n";
+    ler_entrada("Pressione Enter para continuar...");
+}
