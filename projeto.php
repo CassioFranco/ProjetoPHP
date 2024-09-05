@@ -8,6 +8,15 @@ $usuarios = [
 $produtos = [];
 $orcamentos = [];
 
+// impar o terminal
+function limpar_tela() {
+    if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+        system('cls');
+    } else {
+        system('clear');
+    }
+}
+
 
 // ler entradas
 function ler_entrada($prompt) {
