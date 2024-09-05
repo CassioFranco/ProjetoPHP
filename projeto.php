@@ -34,3 +34,52 @@ function mostrar_menu() {
     echo "4. Sair\n";
     echo "Escolha uma opção: ";
 }
+
+// Registrar novo usuário
+function registrar_usuario(&$usuarios) {
+    limpar_tela();
+    echo "----- Registro de Novo Usuário -----\n";
+    $novo_usuario = ler_entrada("Novo Usuário: ");
+    $nova_senha = ler_entrada("Nova Senha: ");
+
+    if (!isset($usuarios[$novo_usuario])) {
+        $usuarios[$novo_usuario] = password_hash($nova_senha, PASSWORD_DEFAULT);
+        echo "\nUsuário registrado com sucesso! Redirecionando para o menu...\n";
+        sleep(2); 
+        return true; 
+    } else {
+        echo "\nUsuário já existe.\n";
+        return false;
+    }
+}
+
+// Login / regitrar caso não tenha cadastro
+function login(&$usuarios) {
+    limpar_tela();
+    $username = ler_entrada("Usuário: ");
+
+    if (!isset($usuarios[$username])) {
+        $resposta = ler_entrada("\nUsuário não encontrado. Deseja se registrar? (s/n): ");
+
+        if (strtolower($resposta) === 's') {
+            if (registrar_usuario($usuarios)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            echo "\nLogin cancelado.\n";
+            return false;
+        }
+    }
+
+    $password = ler_entrada("Senha: ");
+
+    if (isset($usuarios[$username]) && password_verify($password, $usuarios[$username])) {
+        echo "\nLogin bem-sucedido!\n";
+        return true;
+    } else {
+        echo "\nLogin ou senha inválidos.\n";
+        return false;
+    }
+}
