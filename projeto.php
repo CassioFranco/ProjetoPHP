@@ -203,3 +203,32 @@ function mostrar_historico($orcamentos) {
     }
     ler_entrada("Pressione Enter para continuar...");
 }
+
+// Inicio
+echo "Bem-vindo ao Sistema de Orçamentos!\n";
+
+if (!login($usuarios)) {
+    exit();
+}
+
+while (true) {
+    mostrar_menu();
+    $opcao = ler_entrada("");
+
+    switch ($opcao) {
+        case '1':
+            criar_orcamento($produtos, $orcamentos);
+            break;
+        case '2':
+            gerenciar_estoque($produtos);
+            break;
+        case '3':
+            mostrar_historico($orcamentos);
+            break;
+        case '4':
+            echo "Saindo do sistema...\n";
+            exit();
+        default:
+            echo "Opção inválida. Tente novamente.\n";
+    }
+}
