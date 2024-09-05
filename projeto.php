@@ -187,3 +187,19 @@ function criar_orcamento(&$produtos, &$orcamentos) {
     echo "Valor Total: R$" . $valor_total . "\n";
     ler_entrada("Pressione Enter para continuar...");
 }
+
+// Histórico de orçamentos
+function mostrar_historico($orcamentos) {
+    limpar_tela();
+    echo "\n----- Histórico de Orçamentos -----\n";
+    foreach ($orcamentos as $orcamento) {
+        echo "Cliente: " . $orcamento['cliente'] . "\n";
+        echo "Data/Hora: " . $orcamento['data_hora'] . "\n";
+        foreach ($orcamento['itens'] as $item) {
+            echo "- Produto: " . $item['produto']['nome'] . ", Quantidade: " . $item['quantidade'] . ", Valor Unitário: R$" . $item['produto']['valor'] . "\n";
+        }
+        echo "Valor Total do Orçamento: R$" . $orcamento['valor_total'] . "\n";
+        echo "\n";
+    }
+    ler_entrada("Pressione Enter para continuar...");
+}
